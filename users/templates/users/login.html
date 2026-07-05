@@ -1,0 +1,50 @@
+{% extends 'main/base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6 col-lg-5">
+            <div class="tour-card p-4">
+                <div class="text-center mb-4">
+                    <i class="bi bi-box-arrow-in-right display-1 gradient-text"></i>
+                    <h2 class="text-white mt-3">Вход в аккаунт</h2>
+                    <p class="text-white-50">Добро пожаловать обратно!</p>
+                </div>
+
+                <form method="post">
+                    {% csrf_token %}
+
+                    <div class="mb-3">
+                        <label class="form-label text-white">Имя пользователя</label>
+                        <input type="text" name="username" class="form-control bg-dark text-white border-secondary"
+                               placeholder="Введите имя пользователя" required>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label text-white">Пароль</label>
+                        <input type="password" name="password" class="form-control bg-dark text-white border-secondary"
+                               placeholder="Введите пароль" required>
+                    </div>
+
+                    <div class="mb-3 form-check">
+                        <input type="checkbox" class="form-check-input" id="remember">
+                        <label class="form-check-label text-white-50" for="remember">Запомнить меня</label>
+                    </div>
+
+                    <button type="submit" class="btn btn-gradient w-100 py-2">
+                        <i class="bi bi-box-arrow-in-right me-2"></i>Войти
+                    </button>
+                </form>
+
+                <div class="text-center mt-4">
+                    <p class="text-white-50 mb-0">
+                        Нет аккаунта?
+                        <a href="{% url 'users:register' %}" class="text-decoration-none" style="color: #ff6b6b;">Зарегистрироваться</a>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

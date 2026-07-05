@@ -1,0 +1,53 @@
+{% extends 'main/base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="row g-4">
+        <div class="col-lg-4">
+            <div class="tour-card p-4 text-center">
+                {% if user.profile.avatar %}
+                    <img src="{{ user.profile.avatar.url }}" class="rounded-circle mb-3" style="width: 150px; height: 150px; object-fit: cover;">
+                {% else %}
+                    <div class="bg-dark rounded-circle d-flex align-items-center justify-content-center mx-auto mb-3" style="width: 150px; height: 150px;">
+                        <i class="bi bi-person display-1 text-white-50"></i>
+                    </div>
+                {% endif %}
+                <h3 class="text-white">{{ user.username }}</h3>
+                <p class="text-white-50">{{ user.email }}</p>
+                <a href="" class="btn btn-gradient w-100 mt-2">
+                    <i class="bi bi-pencil me-2"></i>Редактировать
+                </a>
+            </div>
+        </div>
+
+        <div class="col-lg-8">
+            <div class="tour-card p-4">
+                <h4 class="text-white mb-4">📋 Информация о профиле</h4>
+                <div class="row g-3">
+                    <div class="col-md-6">
+                        <small class="text-secondary">Имя пользователя</small>
+                        <p class="text-white">{{ user.username }}</p>
+                    </div>
+                    <div class="col-md-6">
+                        <small class="text-secondary">Email</small>
+                        <p class="text-white">{{ user.email }}</p>
+                    </div>
+                    <div class="col-md-6">
+                        <small class="text-secondary">Телефон</small>
+                        <p class="text-white">{{ user.profile.phone|default:"Не указан" }}</p>
+                    </div>
+                    <div class="col-md-6">
+                        <small class="text-secondary">Город</small>
+                        <p class="text-white">{{ user.profile.city|default:"Не указан" }}</p>
+                    </div>
+                    <div class="col-12">
+                        <small class="text-secondary">О себе</small>
+                        <p class="text-white">{{ user.profile.bio|default:"Не указано" }}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

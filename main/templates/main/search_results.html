@@ -1,0 +1,95 @@
+{% extends 'main/base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="mb-4">
+        <h1 class="display-5 fw-bold text-white mb-3">🔍 Результаты поиска</h1>
+        <p class="text-white-50">По запросу <strong>"{{ query }}"</strong> найдено {{ results.count }} туров</p>
+        <a href="{% url 'main:index' %}" class="btn btn-outline-light btn-sm">
+            <i class="bi bi-arrow-left me-2"></i>На главную
+        </a>
+    </div>
+
+    {% if results %}
+        <div class="row g-4">
+            {% for tour in results %}
+            <div class="col-md-6 col-lg-4">
+                <div class="tour-card h-100">
+                    {% if tour.image %}
+                        <img src="{{ tour.image.url }}" class="card-img-top" alt="{{ tour.name }}" style="height: 220px; object-fit: cover;">
+                    {% else %}
+                        <div class="bg-dark d-flex align-items-center justify-content-center" style="height: 220px;">
+                            <i class="bi bi-image display-1 text-white-50"></i>
+                        </div>
+                    {% endif %}
+                    <div class="p-4">
+                        <div class="d-flex justify-content-between align-items-start mb-2">
+                            <h5 class="card-title text-white mb-0">{{ tour.name }}</h5>
+                            <span class="badge bg-primary bg-opacity-25 text-white">{{ tour.cat.name_cat }}</span>
+                        </div>
+                        <div class="stars mb-2">
+                            {% for i in "12345"|make_list %}
+                                {% if forloop.counter <= tour.stars %}
+                                    <i class="bi bi-star-fill text-warning"></i>
+                                {% else %}
+                                    <i class="bi bi-star text-warning"></i>
+                                {% endif %}
+                            {% endfor %}
+                        </div>
+                        <p class="card-text text-white-50 small">{{ tour.hotel|default:"Отель не указан" }}</p>
+                        <p class="card-text text-white-50">{{ tour.description|truncatewords:15 }}</p>
+                        <div class="d-flex justify-content-between align-items-center mt-3">
+                            <div class="price-tag">{{ tour.price }} ₽</div>
+                            <span class="text-white-50 small"><i class="bi bi-calendar"></i> {{ tour.nights }} ночей</span>
+                        </div>
+                        <a href="{% url 'main:country_detail' tour.slug %}" class="btn btn-gradient w-100 mt-3">
+                            <i class="bi bi-eye me-2"></i>Подробнее
+                        </a>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+
+        <!-- Пагинация -->
+        {% if is_paginated %}
+        <nav class="mt-5">
+            <ul class="pagination justify-content-center">
+                {% if page_obj.has_previous %}
+                    <li class="page-item">
+                        <a class="page-link" href="?q={{ query }}&page={{ page_obj.previous_page_number }}">
+                            <i class="bi bi-chevron-left"></i>
+                        </a>
+                    </li>
+                {% endif %}
+
+                {% for num in page_obj.paginator.page_range %}
+                    <li class="page-item {% if num == page_obj.number %}active{% endif %}">
+                        <a class="page-link" href="?q={{ query }}&page={{ num }}">{{ num }}</a>
+                    </li>
+                {% endfor %}
+
+                {% if page_obj.has_next %}
+                    <li class="page-item">
+                        <a class="page-link" href="?q={{ query }}&page={{ page_obj.next_page_number }}">
+                            <i class="bi bi-chevron-right"></i>
+                        </a>
+                    </li>
+                {% endif %}
+            </ul>
+        </nav>
+        {% endif %}
+
+    {% else %}
+        <div class="tour-card p-5 text-center">
+            <i class="bi bi-search display-1 text-white-50 mb-3 d-block"></i>
+            <h4 class="text-white mb-3">Ничего не найдено</h4>
+            <p class="text-white-50">Попробуйте изменить поисковый запрос или перейти в каталог туров</p>
+            <a href="{% url 'main:index' %}" class="btn btn-gradient mt-2">
+                <i class="bi bi-grid me-2"></i>Смотреть все туры
+            </a>
+        </div>
+    {% endif %}
+</div>
+{% endblock %}

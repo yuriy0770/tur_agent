@@ -1,0 +1,66 @@
+{% extends 'main/base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6 col-lg-5">
+            <div class="tour-card p-4">
+                <div class="text-center mb-4">
+                    <i class="bi bi-person-plus display-1 gradient-text"></i>
+                    <h2 class="text-white mt-3">Регистрация</h2>
+                    <p class="text-white-50">Создайте аккаунт, чтобы бронировать туры</p>
+                </div>
+
+                <form method="post">
+                    {% csrf_token %}
+
+                    <div class="mb-3">
+                        <label class="form-label text-white">Имя пользователя</label>
+                        <input type="text" name="username" class="form-control bg-dark text-white border-secondary"
+                               placeholder="Придумайте логин" required>
+                        <small class="text-white-50">Обязательное поле. Только буквы, цифры и @/./+/-/_.</small>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label text-white">Email</label>
+                        <input type="email" name="email" class="form-control bg-dark text-white border-secondary"
+                               placeholder="example@mail.ru" required>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label text-white">Телефон</label>
+                        <input type="tel" name="phone" class="form-control bg-dark text-white border-secondary"
+                               placeholder="+7 (999) 123-45-67">
+                        <small class="text-white-50">Необязательное поле</small>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label text-white">Пароль</label>
+                        <input type="password" name="password1" class="form-control bg-dark text-white border-secondary"
+                               placeholder="Придумайте пароль" required>
+                        <small class="text-white-50">Пароль должен содержать минимум 8 символов</small>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label text-white">Подтверждение пароля</label>
+                        <input type="password" name="password2" class="form-control bg-dark text-white border-secondary"
+                               placeholder="Повторите пароль" required>
+                    </div>
+
+                    <button type="submit" class="btn btn-gradient w-100 py-2">
+                        <i class="bi bi-person-plus me-2"></i>Зарегистрироваться
+                    </button>
+                </form>
+
+                <div class="text-center mt-4">
+                    <p class="text-white-50 mb-0">
+                        Уже есть аккаунт?
+                        <a href="{% url 'users:login' %}" class="text-decoration-none" style="color: #ff6b6b;">Войти</a>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,102 @@
+{% extends 'main/base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="container py-5">
+    <!-- Hero секция -->
+    <div class="text-center mb-5">
+        <h1 class="display-3 fw-bold mb-3 text-white">О нас</h1>
+        <div class="gradient-text" style="width: 80px; height: 4px; margin: 0 auto;"></div>
+        <p class="lead text-white-50 mt-3">TravelHub — ваш надёжный партнёр в мире путешествий</p>
+    </div>
+
+    <div class="row g-5">
+        <!-- Левая колонка: информация -->
+        <div class="col-lg-6">
+            <div class="tour-card p-4 h-100">
+                <h3 class="text-white mb-3">
+                    <i class="bi bi-airplane-fill me-2" style="color: #ff6b6b;"></i> Кто мы?
+                </h3>
+                <p class="text-white-50" style="line-height: 1.8;">
+                    TravelHub — это команда профессионалов, которые любят путешествия и хотят сделать
+                    их доступными для каждого. Мы работаем с 2020 года и за это время помогли более
+                    5000 клиентов найти идеальные туры.
+                </p>
+
+                <h3 class="text-white mb-3 mt-4">
+                    <i class="bi bi-star-fill me-2" style="color: #ff6b6b;"></i> Наша миссия
+                </h3>
+                <p class="text-white-50" style="line-height: 1.8;">
+                    Сделать путешествия простыми, безопасными и незабываемыми. Мы тщательно отбираем
+                    туры, отели и направления, чтобы вы получали только лучшее за свои деньги.
+                </p>
+
+                <h3 class="text-white mb-3 mt-4">
+                    <i class="bi bi-geo-alt-fill me-2" style="color: #ff6b6b;"></i> Почему мы?
+                </h3>
+                <ul class="text-white-50" style="line-height: 1.8;">
+                    <li>✅ Более 50 направлений по всему миру</li>
+                    <li>✅ Лучшие отели с проверенными отзывами</li>
+                    <li>✅ Поддержка 24/7 на русском языке</li>
+                    <li>✅ Безопасная оплата и возврат средств</li>
+                    <li>✅ Индивидуальный подход к каждому клиенту</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Правая колонка: цифры и достижения -->
+        <div class="col-lg-6">
+            <div class="tour-card p-4 h-100">
+                <h3 class="text-white mb-4">
+                    <i class="bi bi-graph-up me-2" style="color: #ff6b6b;"></i> Наши достижения
+                </h3>
+
+                <div class="row text-center g-4">
+                    <div class="col-6">
+                        <div class="p-3 rounded-3" style="background: rgba(255,107,107,0.1);">
+                            <div class="display-4 fw-bold" style="color: #ff6b6b;">5000+</div>
+                            <p class="text-white-50 mb-0">Счастливых клиентов</p>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="p-3 rounded-3" style="background: rgba(255,107,107,0.1);">
+                            <div class="display-4 fw-bold" style="color: #ff6b6b;">50+</div>
+                            <p class="text-white-50 mb-0">Направлений</p>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="p-3 rounded-3" style="background: rgba(255,107,107,0.1);">
+                            <div class="display-4 fw-bold" style="color: #ff6b6b;">200+</div>
+                            <p class="text-white-50 mb-0">Отелей</p>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="p-3 rounded-3" style="background: rgba(255,107,107,0.1);">
+                            <div class="display-4 fw-bold" style="color: #ff6b6b;">24/7</div>
+                            <p class="text-white-50 mb-0">Поддержка</p>
+                        </div>
+                    </div>
+                </div>
+
+                <hr class="border-white-10 my-4">
+
+                <h3 class="text-white mb-3">
+                    <i class="bi bi-telephone-fill me-2" style="color: #ff6b6b;"></i> Контакты
+                </h3>
+                <ul class="list-unstyled text-white-50">
+                    <li class="mb-2"><i class="bi bi-envelope me-2"></i> info@travelhub.ru</li>
+                    <li class="mb-2"><i class="bi bi-telephone me-2"></i> +7 (999) 123-45-67</li>
+                    <li class="mb-2"><i class="bi bi-geo-alt me-2"></i> г. Москва, ул. Путешественников, 1</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <!-- Кнопка обратно -->
+    <div class="text-center mt-5">
+        <a href="{% url 'main:index' %}" class="btn btn-outline-light">
+            <i class="bi bi-arrow-left me-2"></i>На главную
+        </a>
+    </div>
+</div>
+{% endblock %}

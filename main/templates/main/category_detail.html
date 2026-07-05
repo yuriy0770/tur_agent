@@ -1,0 +1,70 @@
+{% extends 'main/base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="container py-5">
+    <!-- Заголовок категории -->
+    <div class="text-center mb-5">
+        <div class="mb-3">
+            {% if category.image_cat %}
+                <img src="{{ category.image_cat.url }}" alt="{{ category.name_cat }}" style="height: 80px; width: 80px; object-fit: cover; border-radius: 50%;">
+            {% else %}
+                <i class="bi bi-folder2-open display-1 text-white-50"></i>
+            {% endif %}
+        </div>
+        <h1 class="display-4 fw-bold mb-3 text-white">{{ category.name_cat }}</h1>
+        <p class="lead text-white-50">{{ category.description_cat }}</p>
+    </div>
+
+    <!-- Список туров в категории -->
+    <div class="row g-4">
+        {% for tour in tours %}
+        <div class="col-md-6 col-lg-4">
+            <div class="tour-card h-100">
+                {% if tour.image %}
+                    <img src="{{ tour.image.url }}" class="card-img-top" alt="{{ tour.name }}" style="height: 250px; object-fit: cover;">
+                {% else %}
+                    <div class="bg-dark d-flex align-items-center justify-content-center" style="height: 250px;">
+                        <i class="bi bi-image display-1 text-white-50"></i>
+                    </div>
+                {% endif %}
+                <div class="p-4">
+                    <div class="d-flex justify-content-between align-items-start mb-2">
+                        <h5 class="card-title text-white mb-0">{{ tour.name }}</h5>
+                        <span class="badge bg-primary bg-opacity-25 text-white">{{ tour.cat.name_cat }}</span>
+                    </div>
+                    <div class="stars mb-2">
+                        {% for i in "12345"|make_list %}
+                            {% if forloop.counter <= tour.stars %}
+                                <i class="bi bi-star-fill"></i>
+                            {% else %}
+                                <i class="bi bi-star"></i>
+                            {% endif %}
+                        {% endfor %}
+                    </div>
+                    <p class="card-text text-white-50 small">{{ tour.hotel|default:"Отель не указан" }}</p>
+                    <p class="card-text text-white-50">{{ tour.description|truncatewords:15 }}</p>
+                    <div class="d-flex justify-content-between align-items-center mt-3">
+                        <div class="price-tag">{{ tour.price }} ₽</div>
+                        <span class="text-white-50 small"><i class="bi bi-calendar"></i> {{ tour.nights }} ночей</span>
+                    </div>
+                    <a href="{% url 'main:country_detail' tour.slug %}" class="btn btn-gradient w-100 mt-3">
+                        <i class="bi bi-eye me-2"></i>Подробнее
+                    </a>
+                </div>
+            </div>
+        </div>
+        {% empty %}
+        <div class="col-12 text-center">
+            <div class="alert alert-info">В этой категории пока нет туров</div>
+        </div>
+        {% endfor %}
+    </div>
+
+    <div class="text-center mt-5">
+        <a href="{% url 'main:index' %}" class="btn btn-outline-light">
+            <i class="bi bi-arrow-left me-2"></i>На главную
+        </a>
+    </div>
+</div>
+{% endblock %}

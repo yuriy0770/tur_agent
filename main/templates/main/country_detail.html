@@ -1,0 +1,159 @@
+{% extends 'main/base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="row g-5">
+        <!-- Левая колонка -->
+        <div class="col-lg-5">
+            <div class="tour-card p-3">
+                {% if tour.image %}
+                    <img src="{{ tour.image.url }}" class="img-fluid rounded-3" alt="{{ tour.name }}" style="width: 100%; object-fit: cover; border-radius: 16px;">
+                {% else %}
+                    <div class="bg-dark d-flex align-items-center justify-content-center rounded-3" style="height: 350px;">
+                        <i class="bi bi-image display-1 text-white-50"></i>
+                    </div>
+                {% endif %}
+            </div>
+
+            <div class="tour-card p-4 mt-4">
+                <div class="d-flex justify-content-between mb-3">
+                    <span class="badge bg-primary bg-opacity-25 text-white px-3 py-2">{{ tour.cat.name_cat }}</span>
+                    <div class="stars">
+                        {% for i in "12345"|make_list %}
+                            {% if forloop.counter <= tour.stars %}
+                                <i class="bi bi-star-fill text-warning"></i>
+                            {% else %}
+                                <i class="bi bi-star text-warning"></i>
+                            {% endif %}
+                        {% endfor %}
+                    </div>
+                </div>
+                <h3 class="text-white mb-2">{{ tour.name }}</h3>
+                <p class="text-white-50 mb-3">
+                    <i class="bi bi-building me-1"></i> {{ tour.hotel|default:"Отель не указан" }}
+                </p>
+                <hr class="border-white-10">
+                <div class="row g-3">
+                    <div class="col-6">
+                        <small class="text-secondary">🍽️ Питание</small>
+                        <p class="text-white mb-0 fw-semibold">{{ tour.get_meal_display }}</p>
+                    </div>
+                    <div class="col-6">
+                        <small class="text-secondary">🚐 Трансфер</small>
+                        <p class="text-white mb-0 fw-semibold">{% if tour.transfer %}✅ Включён{% else %}❌ Не включён{% endif %}</p>
+                    </div>
+                    <div class="col-6">
+                        <small class="text-secondary">🛡️ Страховка</small>
+                        <p class="text-white mb-0 fw-semibold">{% if tour.insurance %}✅ Включена{% else %}❌ Не включена{% endif %}</p>
+                    </div>
+                    <div class="col-6">
+                        <small class="text-secondary">🌙 Ночей</small>
+                        <p class="text-white mb-0 fw-semibold">{{ tour.nights }}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Правая колонка -->
+        <div class="col-lg-7">
+            <div class="tour-card p-4">
+                <div class="mb-3">
+                    <span class="price-tag display-4 fw-bold">{{ tour.price }} ₽</span>
+                    <span class="text-white-50 ms-2">за человека</span>
+                </div>
+
+                <h1 class="display-4 fw-bold mb-4 text-white">{{ tour.name }}</h1>
+
+                <!-- Описание тура -->
+<div class="mb-4 p-4 rounded-3" style="background: #000000; border-left: 4px solid #ff6b6b;">
+    <h5 class="text-white mb-3">
+        <i class="bi bi-file-text-fill me-2" style="color: #ff6b6b;"></i>📋 Описание тура
+    </h5>
+    <p class="text-white" style="color: #ffffff !important; line-height: 1.6;">
+        {{ tour.description|linebreaks }}
+    </p>
+</div>
+
+                <!-- Что включено -->
+                <div class="mb-4 p-4 rounded-3" style="background: #0a0f1f; border-left: 4px solid #28a745;">
+                    <h5 class="text-white mb-3">
+                        <i class="bi bi-check-circle-fill me-2" style="color: #28a745;"></i>✅ В стоимость включено:
+                    </h5>
+                    <ul class="text-white" style="line-height: 1.8; font-size: 1rem;">
+                        <li>🏨 Проживание в отеле {{ tour.stars }}*</li>
+                        <li>🍽️ Питание: {{ tour.get_meal_display }}</li>
+                        <li>🚐 Трансфер (аэропорт — отель — аэропорт)</li>
+                        <li>🛡️ Медицинская страховка</li>
+                        <li>🌊 Поддержка 24/7 на русском языке</li>
+                    </ul>
+                </div>
+
+                <div class="d-flex gap-3 mt-4">
+                    <button class="btn btn-gradient flex-grow-1 py-3 fw-bold">
+                        <i class="bi bi-calendar-check me-2"></i>Забронировать сейчас
+                    </button>
+                    <a href="{% url 'main:category_detail' tour.cat.slug_cat %}" class="btn btn-outline-light px-4">
+                        <i class="bi bi-arrow-left me-2"></i>Назад
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Блок отзывов -->
+<div class="mt-5">
+    <h3 class="text-white mb-4">⭐ Отзывы наших клиентов</h3>
+
+    <!-- Форма добавления отзыва -->
+    {% if user.is_authenticated %}
+        <div class="tour-card p-4 mb-4">
+            <h5 class="text-white mb-3">Оставить отзыв</h5>
+            <form method="post" action="{% url 'main:add_review' tour.slug %}">
+                {% csrf_token %}
+                <div class="mb-3">
+                    <label class="text-white-50">Оценка</label>
+                    {{ form.rating }}
+                </div>
+                <div class="mb-3">
+                    <label class="text-white-50">Текст отзыва</label>
+                    {{ form.text }}
+                </div>
+                <button type="submit" class="btn btn-gradient">
+                    <i class="bi bi-send me-2"></i>Отправить
+                </button>
+            </form>
+        </div>
+    {% else %}
+        <div class="alert alert-info">
+            <a href="{% url 'users:login' %}">Войдите</a>, чтобы оставить отзыв
+        </div>
+    {% endif %}
+
+    <!-- Список отзывов -->
+    {% for review in reviews %}
+        <div class="tour-card p-4 mb-3">
+            <div class="d-flex justify-content-between align-items-center mb-2">
+                <div>
+                    <strong class="text-white">{{ review.user.username }}</strong>
+                    <div class="stars">
+                        {% for i in "12345"|make_list %}
+                            {% if forloop.counter <= review.rating %}
+                                <i class="bi bi-star-fill text-warning"></i>
+                            {% else %}
+                                <i class="bi bi-star text-warning"></i>
+                            {% endif %}
+                        {% endfor %}
+                    </div>
+                </div>
+                <small class="text-white-50">{{ review.created_at|date:"d.m.Y" }}</small>
+            </div>
+            <p class="text-white-50 mb-0">{{ review.text }}</p>
+        </div>
+    {% empty %}
+        <div class="tour-card p-4 text-center">
+            <p class="text-white-50 mb-0">Пока нет отзывов. Будьте первым!</p>
+        </div>
+    {% endfor %}
+</div>
+{% endblock %}
